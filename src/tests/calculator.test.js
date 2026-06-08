@@ -1,4 +1,4 @@
-const { compute } = require('../calculator');
+const { compute, modulo, power, squareRoot } = require('../calculator');
 
 describe('calculator compute()', () => {
   test('addition using add', () => {
@@ -42,6 +42,62 @@ describe('calculator compute()', () => {
   });
 
   test('unknown operation throws', () => {
-    expect(() => compute('pow', 2, 3)).toThrow('Unknown operation');
+    expect(() => compute('powr', 2, 3)).toThrow('Unknown operation');
+  });
+
+  // New tests for extended operations
+  test('modulo using mod', () => {
+    expect(compute('mod', 5, 2)).toBe(1);
+  });
+
+  test('modulo using %', () => {
+    expect(compute('%', 10, 3)).toBe(1);
+  });
+
+  test('modulo by zero throws', () => {
+    expect(() => compute('mod', 5, 0)).toThrow('Division by zero');
+  });
+
+  test('power using pow', () => {
+    expect(compute('pow', 2, 3)).toBe(8);
+  });
+
+  test('power using ^', () => {
+    expect(compute('^', 2, 3)).toBe(8);
+  });
+
+  test('power using **', () => {
+    expect(compute('**', 3, 3)).toBe(27);
+  });
+
+  test('square root of perfect square', () => {
+    expect(compute('sqrt', 16)).toBe(4);
+  });
+
+  test('square root ignores second operand if provided', () => {
+    expect(compute('sqrt', 25, 999)).toBe(5);
+  });
+
+  test('square root of negative throws', () => {
+    expect(() => compute('sqrt', -9)).toThrow('Square root of negative number');
+  });
+});
+
+// Also test exported helpers directly
+describe('exported helpers', () => {
+  test('modulo function', () => {
+    expect(modulo(7, 3)).toBe(1);
+  });
+
+  test('power function', () => {
+    expect(power(2, 10)).toBe(1024);
+  });
+
+  test('squareRoot function positive', () => {
+    expect(squareRoot(9)).toBe(3);
+  });
+
+  test('squareRoot function negative throws', () => {
+    expect(() => squareRoot(-1)).toThrow('Square root of negative number');
   });
 });
